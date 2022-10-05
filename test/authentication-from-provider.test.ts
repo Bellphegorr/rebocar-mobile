@@ -1,9 +1,27 @@
+interface Provider {
+  getAuthentication(): Promise<any>;
+}
+
 export class AuthenticationFromProvider {
-  execute;
+  constructor(private readonly provider: Provider) {}
+
+  execute() {
+    this.provider.getAuthentication();
+  }
 }
 
 describe("AuthenticationFromProvider", () => {
   it("should be defined", () => {
-    expect(new AuthenticationFromProvider()).toBeDefined();
+    expect(new AuthenticationFromProvider(provider)).toBeDefined();
   });
+
+  it("should call the provider", () => {
+    const authentication = new AuthenticationFromProvider(provider);
+    authentication.execute();
+    expect(provider.getAuthentication).toHaveBeenCalled();
+  });
+
+  const provider = {
+    getAuthentication: jest.fn(),
+  };
 });
