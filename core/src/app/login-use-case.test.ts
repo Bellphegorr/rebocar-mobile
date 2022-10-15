@@ -1,17 +1,28 @@
 interface LoginProvider {
-  Login(): void;
+  Login(): User;
 }
 
 class MockProvider implements LoginProvider {
-  public Login = jest.fn();
+  public Login = jest.fn(() => new User("username"));
+}
+
+class User {
+  public username: string;
+
+  constructor(username: string) {
+    this.username = username;
+  }
+
+  public getUserName() {
+    return this.username;
+  }
 }
 
 class LoginUseCase {
   constructor(private loginProvider: LoginProvider) {}
 
   Execute() {
-    this.loginProvider.Login();
-    return { username: "username" };
+    return this.loginProvider.Login();
   }
 }
 
@@ -24,6 +35,7 @@ describe("LoginUseCase", () => {
     const sut = MakeSut();
     const user = sut.Execute();
     expect(user).toBeTruthy();
+    expect(user).toBeInstanceOf(User);
   });
 
   it("should call provider to login", () => {
