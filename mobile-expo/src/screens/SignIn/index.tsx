@@ -12,7 +12,6 @@ import { SignInSocialButton } from "../../components/SocialButton/";
 import GoogleSvg from "../../components/SocialButton/google-svg";
 
 export function SignIn() {
-  console.log("SignIn");
   return (
     <Container>
       <Header>
@@ -23,16 +22,18 @@ export function SignIn() {
             de distância
           </Title>
         </TitleWrapper>
-
         <SignInTitle>
           Faça seu login com {"\n"}
           uma das contas abaixo
         </SignInTitle>
       </Header>
-
       <Footer>
         <FooterWrapper>
-          <SignInSocialButton title="Entrar com Google" svg={GoogleSvg} />
+          <SignInSocialButton
+            title="Entrar com Google"
+            svg={GoogleSvg}
+            onPress={() => console.log("g")}
+          />
         </FooterWrapper>
       </Footer>
     </Container>
