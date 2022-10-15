@@ -29,11 +29,7 @@ export function SignIn() {
       </Header>
       <Footer>
         <FooterWrapper>
-          <SignInSocialButton
-            title="Entrar com Google"
-            svg={GoogleSvg}
-            onPress={() => console.log("g")}
-          />
+          <SignInSocialButton title="Entrar com Google" svg={GoogleSvg} />
         </FooterWrapper>
       </Footer>
     </Container>
