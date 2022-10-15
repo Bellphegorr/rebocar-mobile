@@ -10,8 +10,12 @@ import {
 } from "./styles";
 import { SignInSocialButton } from "../../components/SocialButton/";
 import GoogleSvg from "../../components/SocialButton/google-svg";
+import { TouchableOpacity } from "react-native";
 
 export function SignIn() {
+  const onPress = () => {
+    alert("ok");
+  };
   return (
     <Container>
       <Header>
@@ -29,7 +33,9 @@ export function SignIn() {
       </Header>
       <Footer>
         <FooterWrapper>
-          <SignInSocialButton title="Entrar com Google" svg={GoogleSvg} />
+          <TouchableOpacity onPress={onPress}>
+            <SignInSocialButton title="Entrar com Google" svg={GoogleSvg} />
+          </TouchableOpacity>
         </FooterWrapper>
       </Footer>
     </Container>
