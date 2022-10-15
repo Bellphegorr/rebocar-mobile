@@ -1,34 +1,21 @@
-interface LoginProvider {
-  Login(): User;
-}
+import { User } from "@/domain/user";
+import { UserRepository } from "@/domain/user-repository";
 
-class MockProvider implements LoginProvider {
-  public Login = jest.fn(() => new User("username"));
-}
-
-class User {
-  public username: string;
-
-  constructor(username: string) {
-    this.username = username;
-  }
-
-  public getUserName() {
-    return this.username;
-  }
+class MockRepositor implements UserRepository {
+  public GetUser = jest.fn(() => new User("username"));
 }
 
 class LoginUseCase {
-  constructor(private loginProvider: LoginProvider) {}
+  constructor(private loginProvider: UserRepository) {}
 
   Execute() {
-    return this.loginProvider.Login();
+    return this.loginProvider.GetUser();
   }
 }
 
 describe("LoginUseCase", () => {
   it("should create an instance", () => {
-    expect(new LoginUseCase(new MockProvider())).toBeTruthy();
+    expect(new LoginUseCase(new MockRepositor())).toBeTruthy();
   });
 
   it("should return a user", () => {
@@ -38,18 +25,21 @@ describe("LoginUseCase", () => {
     expect(user).toBeInstanceOf(User);
   });
 
-  it("should call provider to login", () => {
-    const { sut, mockProvider } = MakeSutAndReturnProvider();
+  it("should call user repository", () => {
+    const { sut, mockProvider } = MakeSutAndReturnRepository();
     sut.Execute();
-    expect(mockProvider.Login.mock.calls.length).toBe(1);
+    expect(mockProvider.GetUser.mock.calls.length).toBe(1);
   });
 
   function MakeSut() {
-    return new LoginUseCase(new MockProvider());
+    return new LoginUseCase(new MockRepositor());
   }
 
-  function MakeSutAndReturnProvider() {
-    const mockProvider = new MockProvider();
-    return { sut: new LoginUseCase(mockProvider), mockProvider };
+  function MakeSutAndReturnRepository() {
+    const mockRepository = new MockRepositor();
+    return {
+      sut: new LoginUseCase(mockRepository),
+      mockProvider: mockRepository,
+    };
   }
 });
