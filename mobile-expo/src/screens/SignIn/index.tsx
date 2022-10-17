@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Header,
@@ -11,11 +11,25 @@ import {
 import { SignInSocialButton } from "../../components/SocialButton/";
 import GoogleSvg from "../../components/SocialButton/google-svg";
 import { TouchableOpacity } from "react-native";
+import * as Google from "expo-auth-session/providers/google";
 
 export function SignIn() {
-  const onPress = () => {
-    alert("ok");
-  };
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    expoClientId:
+      "519447374203-qgf9l5d3f0l4bq0dahd7mcofkkboi897.apps.googleusercontent.com",
+    clientSecret: "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",
+    redirectUri: "https://auth.expo.io/@bellphegorr/mobile-expo",
+    scopes: ["profile", "email"],
+  });
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { id_token } = response.params;
+      console.log(id_token);
+    }
+    debugger;
+  }, [response]);
+
   return (
     <Container>
       <Header>
@@ -33,7 +47,7 @@ export function SignIn() {
       </Header>
       <Footer>
         <FooterWrapper>
-          <TouchableOpacity onPress={onPress}>
+          <TouchableOpacity onPress={() => promptAsync()}>
             <SignInSocialButton title="Entrar com Google" svg={GoogleSvg} />
           </TouchableOpacity>
         </FooterWrapper>

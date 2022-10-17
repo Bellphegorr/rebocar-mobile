@@ -14,6 +14,7 @@
     "core": "1.0.0",
     "expo": "~46.0.16",
     "expo-app-loading": "^2.1.0",
+    "expo-application": "^4.2.2",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
     "react-native": "0.69.6",
