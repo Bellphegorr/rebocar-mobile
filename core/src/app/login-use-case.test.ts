@@ -1,5 +1,5 @@
-import { User } from "@/domain/user";
-import { UserRepository } from "@/domain/user-repository";
+import { User } from "../domain/user";
+import { UserRepository } from "../domain/user-repository";
 
 class MockRepositor implements UserRepository {
   public getUser = jest.fn(() => new User("username"));
