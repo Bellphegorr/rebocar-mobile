@@ -18,7 +18,6 @@ export function SignIn() {
     expoClientId:
       "519447374203-qgf9l5d3f0l4bq0dahd7mcofkkboi897.apps.googleusercontent.com",
     clientSecret: "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",
-    redirectUri: "https://auth.expo.io/@bellphegorr/mobile-expo",
     scopes: ["profile", "email"],
   });
 
