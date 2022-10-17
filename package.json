@@ -1,0 +1,8 @@
+{
+  "name": "rebocar-mobile",
+  "private": true,
+  "workspaces": [
+    "core",
+    "mobile-expo"
+  ]
+}
