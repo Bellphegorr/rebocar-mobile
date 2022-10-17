@@ -2,14 +2,14 @@ import { User } from "@/domain/user";
 import { UserRepository } from "@/domain/user-repository";
 
 class MockRepositor implements UserRepository {
-  public GetUser = jest.fn(() => new User("username"));
+  public getUser = jest.fn(() => new User("username"));
 }
 
 class LoginUseCase {
   constructor(private loginProvider: UserRepository) {}
 
   Execute() {
-    return this.loginProvider.GetUser();
+    return this.loginProvider.getUser();
   }
 }
 
@@ -28,7 +28,7 @@ describe("LoginUseCase", () => {
   it("should call user repository", () => {
     const { sut, mockProvider } = MakeSutAndReturnRepository();
     sut.Execute();
-    expect(mockProvider.GetUser.mock.calls.length).toBe(1);
+    expect(mockProvider.getUser.mock.calls.length).toBe(1);
   });
 
   function MakeSut() {

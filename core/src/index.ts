@@ -1,1 +1,1 @@
-export * from "@/infrastructure/user-repository";
+export { UserRepository } from "./infrastructure/user-repository";
