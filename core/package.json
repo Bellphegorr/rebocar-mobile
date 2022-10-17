@@ -1,28 +1,10 @@
 {
   "name": "tcc",
   "version": "1.0.0",
-  "description": "TCC project. Rebocar",
   "main": "src/index.ts",
   "scripts": {
     "start": "tsc && node dist/main.js",
     "test": "jest --watchAll"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Bellphegorr/rebocar.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Bellphegorr/rebocar/issues"
-  },
-  "homepage": "https://github.com/Bellphegorr/rebocar#readme",
-  "dependencies": {
-    "module-alias": "^2.2.2"
-  },
-  "_moduleAliases": {
-    "@": "dist"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
