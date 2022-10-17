@@ -8,17 +8,15 @@ import {
   Poppins_500Medium,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
+import { foo } from "core";
 
 export default function App() {
+  console.log(foo);
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
     Poppins_700Bold,
   });
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <ThemeProvider theme={theme}>

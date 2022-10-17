@@ -5,7 +5,7 @@ class MockRepositor implements UserRepository {
   public getUser = jest.fn(() => new User("username"));
 }
 
-class LoginUseCase {
+export class LoginUseCase {
   constructor(private loginProvider: UserRepository) {}
 
   Execute() {
