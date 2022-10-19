@@ -16,6 +16,7 @@ import * as AuthSession from "expo-auth-session";
 import { makeLoginUseCase } from "core";
 
 export function SignIn() {
+  //TODO: put this in core someday
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId: process.env.EXPO_CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
