@@ -1,16 +1,9 @@
-import { User } from "../domain/user";
-import { UserRepository } from "../domain/user-repository";
+import { LoginUseCase } from "../src/app/login-use-case";
+import { User } from "../src/domain/user";
+import { UserRepository } from "../src/domain/user-repository";
 
 class MockRepositor implements UserRepository {
   getUser = jest.fn(async () => new User("username"));
-}
-
-export class LoginUseCase {
-  constructor(private loginProvider: UserRepository) {}
-
-  Execute() {
-    return this.loginProvider.getUser("userId");
-  }
 }
 
 describe("LoginUseCase", () => {
