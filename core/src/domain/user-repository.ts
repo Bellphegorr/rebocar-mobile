@@ -1,5 +1,5 @@
 import { User } from "./user";
 
 export interface UserRepository {
-  getUser(): User;
+  getUser(userId: string): Promise<User>;
 }

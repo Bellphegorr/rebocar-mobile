@@ -2,14 +2,14 @@ import { User } from "../domain/user";
 import { UserRepository } from "../domain/user-repository";
 
 class MockRepositor implements UserRepository {
-  public getUser = jest.fn(() => new User("username"));
+  getUser = jest.fn(async () => new User("username"));
 }
 
 export class LoginUseCase {
   constructor(private loginProvider: UserRepository) {}
 
   Execute() {
-    return this.loginProvider.getUser();
+    return this.loginProvider.getUser("userId");
   }
 }
 
@@ -18,9 +18,9 @@ describe("LoginUseCase", () => {
     expect(new LoginUseCase(new MockRepositor())).toBeTruthy();
   });
 
-  it("should return a user", () => {
+  it("should return a user", async () => {
     const sut = MakeSut();
-    const user = sut.Execute();
+    const user = await sut.Execute();
     expect(user).toBeTruthy();
     expect(user).toBeInstanceOf(User);
   });
