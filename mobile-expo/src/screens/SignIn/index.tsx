@@ -7,16 +7,16 @@ import {
   SignInTitle,
   Footer,
   FooterWrapper,
-} from "./styles";
+} from "../styles";
 import { SignInSocialButton } from "../../components/SocialButton/";
 import GoogleSvg from "../../components/SocialButton/google-svg";
 import { TouchableOpacity } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
-import * as AuthSession from "expo-auth-session";
 import { makeLoginUseCase } from "core";
 
-export function SignIn() {
-  //TODO: put this in core someday
+//todo: type navigation
+export function SignIn({ navigation }: any) {
+  //TODO: put this in core
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId: process.env.EXPO_CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
@@ -32,6 +32,7 @@ export function SignIn() {
         .Execute(authentication!.accessToken)
         .then((result) => {
           console.log(result);
+          navigation.navigate("Home");
         })
         .catch((error) => {
           console.log(error);
