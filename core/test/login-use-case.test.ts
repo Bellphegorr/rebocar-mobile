@@ -13,14 +13,14 @@ describe("LoginUseCase", () => {
 
   it("should return a user", async () => {
     const sut = MakeSut();
-    const user = await sut.Execute();
+    const user = await sut.Execute("any-token");
     expect(user).toBeTruthy();
     expect(user).toBeInstanceOf(User);
   });
 
   it("should call user repository", () => {
     const { sut, mockProvider } = MakeSutAndReturnRepository();
-    sut.Execute();
+    sut.Execute("any-token");
     expect(mockProvider.getUser.mock.calls.length).toBe(1);
   });
 

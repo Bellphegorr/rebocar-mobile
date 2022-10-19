@@ -13,6 +13,7 @@ import GoogleSvg from "../../components/SocialButton/google-svg";
 import { TouchableOpacity } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import * as AuthSession from "expo-auth-session";
+import { makeLoginUseCase } from "core";
 
 export function SignIn() {
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
