@@ -27,14 +27,14 @@ export function SignIn() {
   useEffect(() => {
     if (response?.type === "success") {
       const { authentication } = response;
-      AuthSession.fetchUserInfoAsync(
-        {
-          accessToken: authentication!.accessToken,
-        },
-        Google.discovery
-      ).then((user) => {
-        console.log(user);
-      });
+      makeLoginUseCase()
+        .Execute(authentication!.accessToken)
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       console.log(authentication);
       debugger;
     }

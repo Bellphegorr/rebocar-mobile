@@ -4,5 +4,5 @@ import { Provider } from "./drivers/provider";
 
 export function makeLoginUseCase() {
   const userRepository = new UserRepository(new Provider());
-  return new LoginUseCase(userRepository).Execute;
+  return new LoginUseCase(userRepository);
 }
