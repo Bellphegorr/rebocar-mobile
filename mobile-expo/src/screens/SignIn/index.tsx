@@ -12,21 +12,31 @@ import { SignInSocialButton } from "../../components/SocialButton/";
 import GoogleSvg from "../../components/SocialButton/google-svg";
 import { TouchableOpacity } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
+import * as AuthSession from "expo-auth-session";
 
 export function SignIn() {
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId:
       "519447374203-qgf9l5d3f0l4bq0dahd7mcofkkboi897.apps.googleusercontent.com",
     clientSecret: "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",
+    redirectUri: "https://auth.expo.io/@bellphegorr/mobile-expo",
     scopes: ["profile", "email"],
   });
 
   useEffect(() => {
     if (response?.type === "success") {
-      const { id_token } = response.params;
-      console.log(id_token);
+      const { authentication } = response;
+      AuthSession.fetchUserInfoAsync(
+        {
+          accessToken: authentication!.accessToken,
+        },
+        Google.discovery
+      ).then((user) => {
+        console.log(user);
+      });
+      console.log(authentication);
+      debugger;
     }
-    debugger;
   }, [response]);
 
   return (
