@@ -17,16 +17,16 @@ import { makeLoginUseCase } from "core";
 
 export function SignIn() {
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-    expoClientId:
-      "519447374203-qgf9l5d3f0l4bq0dahd7mcofkkboi897.apps.googleusercontent.com",
-    clientSecret: "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",
-    redirectUri: "https://auth.expo.io/@bellphegorr/mobile-expo",
+    expoClientId: process.env.EXPO_CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    redirectUri: process.env.REDIRECT_URI,
     scopes: ["profile", "email"],
   });
 
   useEffect(() => {
     if (response?.type === "success") {
       const { authentication } = response;
+      //TODO: improve to cache user info
       makeLoginUseCase()
         .Execute(authentication!.accessToken)
         .then((result) => {
@@ -35,8 +35,6 @@ export function SignIn() {
         .catch((error) => {
           console.log(error);
         });
-      console.log(authentication);
-      debugger;
     }
   }, [response]);
 

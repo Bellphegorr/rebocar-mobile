@@ -15,7 +15,9 @@ export default function App() {
     Poppins_500Medium,
     Poppins_700Bold,
   });
-
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <ThemeProvider theme={theme}>
       <SignIn></SignIn>
