@@ -12,6 +12,7 @@ import { SignInSocialButton } from "../components/sign-in-social-button";
 import GoogleSvg from "../components/google-svg";
 import { TouchableOpacity } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
+//TODO: use a factory to inject make login
 import { makeLoginUseCase } from "core";
 
 //todo: type navigation
@@ -31,7 +32,6 @@ export function SignIn({ navigation }: any) {
       makeLoginUseCase()
         .Execute(authentication!.accessToken)
         .then((result) => {
-          console.log(result);
           navigation.navigate("Home");
         })
         .catch((error) => {
