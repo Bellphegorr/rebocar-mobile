@@ -1,9 +1,9 @@
 import { UserRepository } from "../domain/user-repository";
 
 export class LoginUseCase {
-  constructor(private loginProvider: UserRepository) {}
+  constructor(private userRepository: UserRepository) {}
 
   async Execute(accessToken: string) {
-    return await this.loginProvider.getUser(accessToken);
+    return await this.userRepository.getUser(accessToken);
   }
 }

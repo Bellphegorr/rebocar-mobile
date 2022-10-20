@@ -1,8 +1,8 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
-import theme from "./src/global/styles/theme";
-import { SignIn } from "./src/screens/SignIn";
-import { Home } from "./src/screens/Home";
+import theme from "./src/global/theme";
+import { SignIn } from "./src/screens/sign-in";
+import { Home } from "./src/screens/home";
 import {
   useFonts,
   Poppins_400Regular,

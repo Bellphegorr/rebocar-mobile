@@ -7,8 +7,8 @@ import {
   SignInTitle,
   Footer,
   FooterWrapper,
-} from "../styles";
-import GoogleSvg from "../../components/SocialButton/google-svg";
+} from "./styles";
+import GoogleSvg from "../components/google-svg";
 
 export function Home() {
   return (

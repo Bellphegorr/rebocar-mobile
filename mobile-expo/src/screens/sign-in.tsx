@@ -7,9 +7,9 @@ import {
   SignInTitle,
   Footer,
   FooterWrapper,
-} from "../styles";
-import { SignInSocialButton } from "../../components/SocialButton/";
-import GoogleSvg from "../../components/SocialButton/google-svg";
+} from "./styles";
+import { SignInSocialButton } from "../components/sign-in-social-button";
+import GoogleSvg from "../components/google-svg";
 import { TouchableOpacity } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import { makeLoginUseCase } from "core";
