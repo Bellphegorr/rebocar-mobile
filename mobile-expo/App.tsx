@@ -11,6 +11,7 @@ import {
 } from "@expo-google-fonts/poppins";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { AuthProvider } from "./src/contexts/auth-context";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,17 +25,19 @@ export default function App() {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <ThemeProvider theme={theme}>
-        <Stack.Navigator
-          initialRouteName="Sign-in"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="Sign-in" component={SignIn} />
-          <Stack.Screen name="Home" component={Home} />
-        </Stack.Navigator>
-      </ThemeProvider>
+      <AuthProvider value={{ user: "test" }}>
+        <ThemeProvider theme={theme}>
+          <Stack.Navigator
+            initialRouteName="Sign-in"
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name="Sign-in" component={SignIn} />
+            <Stack.Screen name="Home" component={Home} />
+          </Stack.Navigator>
+        </ThemeProvider>
+      </AuthProvider>
     </NavigationContainer>
   );
 }
