@@ -5,12 +5,12 @@
     "scheme": "oauth2app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/branding.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FF5757"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,12 +21,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/branding.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.bellphegorr.mobileexpo"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/branding.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "aba7bd47-9e5c-4c8b-8458-bb02b9ef0732"
+      }
     }
   }
 }

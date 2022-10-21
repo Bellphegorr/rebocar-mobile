@@ -1,0 +1,37 @@
+{
+  "cli": {
+    "version": ">= 2.4.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_CLIENT_ID": "",
+        "CLIENT_SECRET": "",
+        "REDIRECT_URI": ""
+      },
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": "app:assembleRelease"
+      }
+    },
+    "preview": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_CLIENT_ID": "",
+        "CLIENT_SECRET": "",
+        "REDIRECT_URI": ""
+      },
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": "app:assembleRelease"
+      }
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {}
+  }
+}
