@@ -10,15 +10,10 @@
         "EXPO_CLIENT_ID": "",
         "CLIENT_SECRET": "",
         "REDIRECT_URI": ""
-      },
-      "android": {
-        "buildType": "apk",
-        "gradleCommand": "app:assembleRelease"
       }
     },
     "preview": {
       "developmentClient": true,
-      "distribution": "internal",
       "env": {
         "EXPO_CLIENT_ID": "",
         "CLIENT_SECRET": "",
