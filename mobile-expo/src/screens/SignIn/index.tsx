@@ -8,20 +8,24 @@ import {
   Footer,
   FooterWrapper,
 } from "./styles";
-import { SignInSocialButton } from "../components/sign-in-social-button";
-import GoogleSvg from "../components/google-svg";
+import { SignInSocialButton } from "../../components/sign-in-social-button";
+import GoogleSvg from "../../components/google-svg";
 import { TouchableOpacity } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 //TODO: use a factory to inject make login
 import { makeLoginUseCase } from "core";
 
+const { EXPO_CLIENT_ID } = process.env;
+const { CLIENT_SECRET } = process.env;
+const { REDIRECT_URI } = process.env;
+
 //todo: type navigation
 export function SignIn({ navigation }: any) {
   //TODO: put this in core
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-    expoClientId: process.env.EXPO_CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
-    redirectUri: process.env.REDIRECT_URI,
+    expoClientId: EXPO_CLIENT_ID,
+    clientSecret: CLIENT_SECRET,
+    redirectUri: REDIRECT_URI,
     scopes: ["profile", "email"],
   });
 
