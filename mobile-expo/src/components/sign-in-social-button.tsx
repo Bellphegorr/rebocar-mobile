@@ -11,7 +11,7 @@ interface Props extends RectButtonProps {
 
 export function SignInSocialButton({ title, svg: Svg, ...rest }: Props) {
   return (
-    <Button {...rest} onPress={() => alert("ok")}>
+    <Button {...rest}>
       <ImageContainer>
         <Svg />
       </ImageContainer>

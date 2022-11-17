@@ -28,10 +28,6 @@ export function AppRoutes(){
             }}
         >
             <Screen
-                name="SignIn"
-                component={SignIn}
-            />
-            <Screen
                 name="Home"
                 component={Home}
                 options={{

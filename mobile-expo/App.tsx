@@ -10,7 +10,8 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-import { AuthProvider } from "./src/contexts/auth-context";
+// import { AuthProvider } from "./src/contexts/auth-context";
+import { AuthProvider, useAuth } from "./src/hooks/auth";
 import { StatusBar } from "react-native";
 
 export default function App() {
@@ -26,7 +27,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar barStyle="light-content"/>
-      <AuthProvider value={{ user: "test" }}>
+      <AuthProvider>
           <Routes/>
       </AuthProvider>
     </ThemeProvider>
