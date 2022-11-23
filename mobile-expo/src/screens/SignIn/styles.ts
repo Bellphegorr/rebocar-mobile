@@ -17,6 +17,13 @@ export const Header = styled.View`
 export const TitleWrapper = styled.View`
   align-items: center;
 `;
+
+export const LogoRebocar = styled.Image`
+  width: 240px;
+  height: 120px;
+
+`;
+
 export const Title = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
   color: ${({ theme }) => theme.colors.shape};

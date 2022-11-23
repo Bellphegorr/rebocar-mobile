@@ -4,6 +4,7 @@ import {
   Container,
   Header,
   TitleWrapper,
+  LogoRebocar,
   Title,
   SignInTitle,
   Footer,
@@ -14,39 +15,9 @@ import { SignInSocialButton } from "../../components/sign-in-social-button";
 import GoogleSvg from "../../components/google-svg";
 import { TouchableOpacity } from "react-native";
 
-// import * as Google from "expo-auth-session/providers/google";
-//TODO: use a factory to inject make login
-// import { makeLoginUseCase } from "core";
-
-// const { EXPO_CLIENT_ID } = process.env;
-// const { CLIENT_SECRET } = process.env;
-// const { REDIRECT_URI } = process.env;
-
 import { useAuth } from '../../hooks/auth';
 
-export function SignIn({ navigation }: any) {
-  // const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-  //   expoClientId: EXPO_CLIENT_ID,
-  //   clientSecret: CLIENT_SECRET,
-  //   redirectUri: REDIRECT_URI,
-  //   scopes: ["profile", "email"],
-  // });
-
-  // useEffect(() => {
-  //   if (response?.type === "success") {
-  //     const { authentication } = response;
-  //     //TODO: improve to cache user info
-  //     makeLoginUseCase()
-  //       .Execute(authentication!.accessToken)
-  //       .then((result) => {
-  //         navigation.navigate("Home");
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   }
-  // }, [response]);
-
+export function SignIn() {
   const { user, signInWithGoogle } = useAuth();
 
   async function handleSignInWithGoogle() {
@@ -63,7 +34,9 @@ export function SignIn({ navigation }: any) {
     <Container>
       <Header>
         <TitleWrapper>
-          <GoogleSvg></GoogleSvg>
+          <LogoRebocar 
+            source={require('../../../assets/logo-reboque.png')}
+          />
           <Title>
             Serviço de reboque {"\n"}a um toque {"\n"}
             de distância
@@ -76,7 +49,7 @@ export function SignIn({ navigation }: any) {
       </Header>
       <Footer>
         <FooterWrapper>
-          <TouchableOpacity onPress={/*() => promptAsync()*/handleSignInWithGoogle}>
+          <TouchableOpacity onPress={handleSignInWithGoogle}>
             <SignInSocialButton title="Entrar com Google" svg={GoogleSvg} />
           </TouchableOpacity>
         </FooterWrapper>

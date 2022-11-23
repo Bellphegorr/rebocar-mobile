@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { FlatList } from "react-native-gesture-handler";
 
 import { Button } from "../../components/Button";
-import { InputSearch } from "../../components/InputSearch";
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 import { 
     Container,
@@ -11,27 +11,80 @@ import {
     Footer
 } from './styles';
 
+import { useTheme } from "styled-components";
+
+interface Destination {
+    description: string;
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+}
+
 interface Props {
+    destination: Destination;
+    setDestination: (destination: Destination) => void;
     closeSearchModal: () => void;
 }
 
+const { API_KEY } = process.env;
+
 export function SearchDestination({
+    destination,
+    setDestination,
     closeSearchModal
 }: Props) {
     
-    
+    // function handleDestinationSelect(destination: Destination) {
+    //     setDestination(destination);
+    // }
+
+    //const [destination, setDestination] = useState({});
+    const theme = useTheme();
+
     return(
         <Container>
             <Field>
-                <InputSearch
-                    placeholder="Para onde?"
-                    autoCapitalize="sentences"
-                    autoCorrect={false}
+                <GooglePlacesAutocomplete
+                    placeholder='Para onde?'
+                    onPress={(data, details = null) => {
+                        //console.log(data, details);
+                        
+                        setDestination({
+                            description: data.description,
+                            latitude: details.geometry.location.lat,
+                            longitude: details.geometry.location.lng,
+                            latitudeDelta: 0.00922,
+                            longitudeDelta: 0.00421,
+                        })
+                        
+                        closeSearchModal()
+                    }}
+                    query={{
+                        key: API_KEY,
+                        language: 'pt_BR',
+                    }}
+                    fetchDetails={true}
+                    enablePoweredByContainer={false}
+                    keepResultsAfterBlur={true}
+                    textInputProps={{placeholderTextColor: '#333'}}
+                    styles={{
+                        container: {
+                            width: 340
+                        },
+                        textInput: {
+                            height: 60,
+                            fontSize: 17
+                        },
+                        row: {
+                            marginTop: 2,
+                            height: 50,
+                        },
+                        separator: {
+                            height: 0
+                        },
+                    }}
                 />
-
-                <SearchResult />
-                <SearchResult />
-                <SearchResult />
             </Field>
 
             <Footer>
@@ -40,7 +93,6 @@ export function SearchDestination({
                     onPress={closeSearchModal}
                 />
             </Footer>
-            
         </Container>
     )
 }
