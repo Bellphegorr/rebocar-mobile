@@ -40,15 +40,6 @@ export function Home() {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [origin, setOrigin] = useState<Origin>({} as Origin);
-  // const [destination, setDestination] = useState({
-  //   description: 'teste',
-  //   latitude: 0,
-  //   longitude: 0,
-  //   latitudeDelta: 0,
-  //   longitudeDelta: 0
-  // });
-  // const [destination, setDestination] = useState<Destination>({} as Destination);
-
   const [destination, setDestination] = useState(null);
   const mapEl = useRef(null);
   const [distance, setDistance] = useState(0);

@@ -8,7 +8,7 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 import { Home } from '../screens/Home';
 import { Account } from "../screens/Account";
-import { Options } from "../screens/Options";
+import { Activities } from "../screens/Activities";
 
 export function AppRoutes(){
     const theme = useTheme();
@@ -44,7 +44,7 @@ export function AppRoutes(){
 
             <Screen
                 name="Atividades"
-                component={Options}
+                component={Activities}
                 options={{
                     tabBarIcon: (({ size, color}) => 
                         <MaterialCommunityIcons
