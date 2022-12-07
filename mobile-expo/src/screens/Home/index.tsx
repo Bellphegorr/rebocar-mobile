@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
-import { Modal, ActivityIndicator } from "react-native";
-import { useTheme } from 'styled-components';
+import { Modal, ActivityIndicator, TouchableOpacity } from "react-native";
+import { useTheme } from "styled-components";
 import { Marker } from "react-native-maps";
 import Geocoder from "react-native-geocoding";
 
@@ -14,17 +14,17 @@ import {
   LocationBox,
   LocationText,
   Back,
-  BackImage
+  BackImage,
 } from "./styles";
 
-import * as Location from 'expo-location';
-import MapViewDirections from 'react-native-maps-directions';
+import * as Location from "expo-location";
+import MapViewDirections from "react-native-maps-directions";
 
 import { RequestButton } from "../../components/RequestButton";
 import { SearchDestination } from "../SearchDestination";
 import { Details } from "../../components/Details";
 
-interface Origin{
+interface Origin {
   description: string;
   latitude: number;
   longitude: number;
@@ -46,57 +46,54 @@ export function Home() {
 
   const theme = useTheme();
 
-  function handleOpenSearchDestination(){
+  function handleOpenSearchDestination() {
     setSearchModalOpen(true);
   }
 
-  function handleCloseSearchDestination(){
+  function handleCloseSearchDestination() {
     setSearchModalOpen(false);
   }
 
-  function handleBackRequisition(){
+  function handleBackRequisition() {
     setDestination(null);
   }
 
-  async function loadUserPosition(){
-    const { status } = await Location.requestForegroundPermissionsAsync();;
+  async function loadUserPosition() {
+    const { status } = await Location.requestForegroundPermissionsAsync();
 
-      if(status === 'granted'){
-        let location = await Location.getCurrentPositionAsync()
-        const latitude = location.coords.latitude
-        const longitude = location.coords.longitude
-        const response = await Geocoder.from({ latitude, longitude})
-        const address = response.results[0].formatted_address;
-        const description = address.substring(3, address.indexOf(","))
+    if (status === "granted") {
+      let location = await Location.getCurrentPositionAsync();
+      const latitude = location.coords.latitude;
+      const longitude = location.coords.longitude;
+      const response = await Geocoder.from({ latitude, longitude });
+      const address = response.results[0].formatted_address;
+      const description = address.substring(3, address.indexOf(","));
 
-        setOrigin({
-          description,
-          latitude,
-          longitude,
-          latitudeDelta: 0.00922,
-          longitudeDelta: 0.00421,
-        })
-      }else{
-        throw new Error("Localização não permitida");
-      }
-      
+      setOrigin({
+        description,
+        latitude,
+        longitude,
+        latitudeDelta: 0.00922,
+        longitudeDelta: 0.00421,
+      });
+    } else {
+      throw new Error("Localização não permitida");
+    }
+
     setIsLoading(false);
   }
 
   useEffect(() => {
     loadUserPosition();
-  }, [])
+  }, []);
 
   return (
     <Container>
-      {
-        isLoading ?
+      {isLoading ? (
         <LoadMap>
-          <ActivityIndicator 
-            color={theme.colors.primary}
-            size="large"
-          /> 
-        </LoadMap> :
+          <ActivityIndicator color={theme.colors.primary} size="large" />
+        </LoadMap>
+      ) : (
         <>
           <Map
             initialRegion={origin}
@@ -113,27 +110,25 @@ export function Home() {
                   apikey={API_KEY}
                   strokeWidth={3}
                   onReady={(result) => {
-                    setDistance(result.distance)
-                    mapEl.current.fitToCoordinates(result.coordinates, {        
-                      edgePadding:{
-                        top:50,
-                        left:50,
-                        bottom:350,
-                        right:50
-                      }
-                    })
+                    setDistance(result.distance);
+                    mapEl.current.fitToCoordinates(result.coordinates, {
+                      edgePadding: {
+                        top: 50,
+                        left: 50,
+                        bottom: 350,
+                        right: 50,
+                      },
+                    });
                   }}
                 />
-            
-                <Marker 
-                  coordinate={destination} 
-                  anchor={{ x: 0, y:0}} 
-                  image={require('../../../assets/marker.png')}
+
+                <Marker
+                  coordinate={destination}
+                  anchor={{ x: 0, y: 0 }}
+                  image={require("../../../assets/marker.png")}
                 >
                   <Distance>
-                    {destination &&
-                      <TextDistance>{distance}m</TextDistance>
-                    }
+                    {destination && <TextDistance>{distance}m</TextDistance>}
                   </Distance>
 
                   <LocationBox>
@@ -141,37 +136,32 @@ export function Home() {
                   </LocationBox>
                 </Marker>
 
-                <Marker 
-                  coordinate={origin} 
-                  anchor={{ x: 0, y:0}}
-                >
+                <Marker coordinate={origin} anchor={{ x: 0, y: 0 }}>
                   <LocationBox>
                     <LocationText>{origin.description}</LocationText>
                   </LocationBox>
                 </Marker>
               </Fragment>
             )}
-
           </Map>
-          
+
           {destination ? (
             <Fragment>
-              <Back
-                onPress={handleBackRequisition}
-              >
-                <BackImage 
-                  source={require('../../../assets/back.png')}
-                />
-              </Back>
-
-              <Details /> 
+              <TouchableOpacity onPress={handleBackRequisition}>
+                <Back>
+                  <BackImage source={require("../../../assets/back.png")} />
+                </Back>
+              </TouchableOpacity>
+              <Details />
             </Fragment>
           ) : (
             <Footer>
-              <RequestButton
-                title="Solicitar gincho"
-                onPress={handleOpenSearchDestination}
-              />
+              <TouchableOpacity onPress={handleOpenSearchDestination}>
+                <RequestButton
+                  title="Solicitar guincho"
+                  onPress={handleOpenSearchDestination}
+                />
+              </TouchableOpacity>
             </Footer>
           )}
 
@@ -183,7 +173,7 @@ export function Home() {
             />
           </Modal>
         </>
-      }
+      )}
     </Container>
   );
 }
