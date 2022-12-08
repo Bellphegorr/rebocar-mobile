@@ -23,6 +23,7 @@ import MapViewDirections from "react-native-maps-directions";
 import { RequestButton } from "../../components/RequestButton";
 import { SearchDestination } from "../SearchDestination";
 import { Details } from "../../components/Details";
+import { io } from "socket.io-client";
 
 interface Origin {
   description: string;
@@ -34,7 +35,7 @@ interface Origin {
 
 const { API_KEY } = process.env;
 
-Geocoder.init(API_KEY);
+Geocoder.init(API_KEY!);
 
 export function Home() {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -43,8 +44,8 @@ export function Home() {
   const [destination, setDestination] = useState(null);
   const mapEl = useRef(null);
   const [distance, setDistance] = useState(0);
-
   const theme = useTheme();
+  const socket = io("http://192.168.0.33:3000");
 
   function handleOpenSearchDestination() {
     setSearchModalOpen(true);
@@ -60,7 +61,6 @@ export function Home() {
 
   async function loadUserPosition() {
     const { status } = await Location.requestForegroundPermissionsAsync();
-
     if (status === "granted") {
       let location = await Location.getCurrentPositionAsync();
       const latitude = location.coords.latitude;
@@ -68,7 +68,6 @@ export function Home() {
       const response = await Geocoder.from({ latitude, longitude });
       const address = response.results[0].formatted_address;
       const description = address.substring(3, address.indexOf(","));
-
       setOrigin({
         description,
         latitude,
@@ -79,8 +78,20 @@ export function Home() {
     } else {
       throw new Error("Localização não permitida");
     }
-
     setIsLoading(false);
+  }
+
+  function requestRide() {
+    // socket.emit("join-costumer", "123");
+    // socket.on("Hello from server after join user", () => {
+    //   console.log("eita");
+    // });
+    // console.log("request ride");
+    socket.emit("request-race", {
+      userId: "123",
+      from: [origin.latitude, origin.longitude],
+      to: [destination.latitude, destination.longitude],
+    });
   }
 
   useEffect(() => {
@@ -121,7 +132,6 @@ export function Home() {
                     });
                   }}
                 />
-
                 <Marker
                   coordinate={destination}
                   anchor={{ x: 0, y: 0 }}
@@ -130,12 +140,10 @@ export function Home() {
                   <Distance>
                     {destination && <TextDistance>{distance}m</TextDistance>}
                   </Distance>
-
                   <LocationBox>
                     <LocationText>{destination.description}</LocationText>
                   </LocationBox>
                 </Marker>
-
                 <Marker coordinate={origin} anchor={{ x: 0, y: 0 }}>
                   <LocationBox>
                     <LocationText>{origin.description}</LocationText>
@@ -144,7 +152,6 @@ export function Home() {
               </Fragment>
             )}
           </Map>
-
           {destination ? (
             <>
               <Back>
@@ -152,23 +159,20 @@ export function Home() {
                   <BackImage source={require("../../../assets/back.png")} />
                 </TouchableOpacity>
               </Back>
-              <Details />
+              <Details onPress={requestRide} />
             </>
           ) : (
             <Footer>
-              <TouchableOpacity onPress={handleOpenSearchDestination}>
-                <RequestButton
-                  title="Solicitar guincho"
-                  onPress={handleOpenSearchDestination}
-                />
-              </TouchableOpacity>
+              <RequestButton
+                title="Solicitar guincho"
+                onPress={handleOpenSearchDestination}
+              />
             </Footer>
           )}
-
           <Modal visible={searchModalOpen}>
             <SearchDestination
-              destination={destination}
-              setDestination={setDestination}
+              destination={destination!}
+              setDestination={setDestination!}
               closeSearchModal={handleCloseSearchDestination}
             />
           </Modal>

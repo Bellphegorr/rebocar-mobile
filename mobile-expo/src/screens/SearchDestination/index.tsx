@@ -30,13 +30,7 @@ export function SearchDestination({
   setDestination,
   closeSearchModal,
 }: Props) {
-  // function handleDestinationSelect(destination: Destination) {
-  //     setDestination(destination);
-  // }
-
-  //const [destination, setDestination] = useState({});
   const theme = useTheme();
-
   return (
     <Container>
       <Field>

@@ -3,7 +3,11 @@ import { RequestButton } from "../RequestButton";
 
 import { Container, TypeTitle, TypeDescription, RebocarImg } from "./styles";
 
-export function Details() {
+interface DetailsProps {
+  onPress: () => void;
+}
+
+export function Details({ onPress }: DetailsProps) {
   return (
     <Container>
       <TypeTitle>Popular</TypeTitle>
@@ -11,7 +15,7 @@ export function Details() {
       <RebocarImg source={require("../../../assets/rebocarx.jpg")} />
       <TypeTitle>RebocarX</TypeTitle>
       <TypeDescription>R$ 150,00</TypeDescription>
-      <RequestButton title="Confirmar" onPress={() => {}} />
+      <RequestButton title="Confirmar" onPress={onPress} />
     </Container>
   );
 }
