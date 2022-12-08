@@ -1,8 +1,14 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
+    "rootDirs": ["src", "test"],
+    "paths": {
+      "@/*": ["*"]
+    },
+    "outDir": "dist",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true
-  }
+    "sourceMap": true
+  },
+  "include": ["./src", "test"],
+  "exclude": ["node_modules", "../node_modules"]
 }

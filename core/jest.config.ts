@@ -3,9 +3,8 @@ export default {
   collectCoverage: true,
   coverageDirectory: "coverage",
   coverageProvider: "v8",
-  transformIgnorePatterns: [
-    "/node_modules/(?![@autofiy/autofiyable|@autofiy/property]).+\\.js$",
-    "/node_modules/(?![@autofiy/autofiyable|@autofiy/property]).+\\.ts$",
-    "/node_modules/(?![@autofiy/autofiyable|@autofiy/property]).+\\.tsx$",
-  ],
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
+  roots: ["<rootDir>/src", "<rootDir>/test"],
 };
