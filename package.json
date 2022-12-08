@@ -4,5 +4,8 @@
   "workspaces": [
     "core",
     "mobile-expo"
-  ]
+  ],
+  "_moduleAliases": {
+    "@": "core/dist/src"
+  }
 }
