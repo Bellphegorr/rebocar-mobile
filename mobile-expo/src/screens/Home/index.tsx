@@ -146,14 +146,14 @@ export function Home() {
           </Map>
 
           {destination ? (
-            <Fragment>
-              <TouchableOpacity onPress={handleBackRequisition}>
-                <Back>
+            <>
+              <Back>
+                <TouchableOpacity onPress={handleBackRequisition}>
                   <BackImage source={require("../../../assets/back.png")} />
-                </Back>
-              </TouchableOpacity>
+                </TouchableOpacity>
+              </Back>
               <Details />
-            </Fragment>
+            </>
           ) : (
             <Footer>
               <TouchableOpacity onPress={handleOpenSearchDestination}>
