@@ -7,7 +7,7 @@ interface DetailsProps {
   onPress: () => void;
 }
 
-export function Details({ onPress }: DetailsProps) {
+export function RequestAccepted({ onPress }: DetailsProps) {
 
   return (
     <Container>
@@ -16,7 +16,7 @@ export function Details({ onPress }: DetailsProps) {
       <RebocarImg source={require("../../../assets/rebocarx.jpg")} />
       <RebocarType>RebocarX</RebocarType>
       <RaceValue>R$ 150,00</RaceValue>
-      <RequestButton title="Confirmar" onPress={onPress}/>
+      <RequestButton title="Confirmar" onPress={onPress} />
     </Container>
   );
 }

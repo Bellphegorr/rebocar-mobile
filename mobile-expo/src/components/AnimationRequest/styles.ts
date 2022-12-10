@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   background: ${({ theme }) => theme.colors.shape};
-  height: 50%;
+  height: 40%;
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -16,32 +16,26 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const TypeTitle = styled.Text`
+export const Title = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
   font-size: ${RFValue(20)}px;
   margin-top: 10px;
 `;
 
-export const TypeDescription = styled.Text`
+export const Description = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(14)}px;
   margin-bottom: 10px;
 `;
 
-export const RebocarImg = styled.Image`
-  width: 70px;
-  height: 70px;
-  border-radius: 35px;
+export const CancelRequest = styled.TouchableOpacity`
+  align-items: center;
+  border-color: red;
 `;
 
-export const RebocarType = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.medium};
-  font-size: ${RFValue(20)}px;
-  margin-top: 5px;
-`;
-
-export const RaceValue = styled.Text`
+export const TitleCancelButton = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(14)}px;
-  margin-bottom: 20px;
+  font-size: ${RFValue(18)}px;
+
+  color: red;
 `;

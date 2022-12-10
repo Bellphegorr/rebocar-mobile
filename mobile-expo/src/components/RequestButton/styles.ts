@@ -3,14 +3,14 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled(RectButton)`
-    width: 80%;
+    width: 100%;
 
     background-color: ${({ theme }) => theme.colors.primary};
     border-radius: 5px;
 
     align-items: center;
     
-    padding: 18px;
+    padding: 13px 60px;
 `;
 
 export const Title = styled.Text`

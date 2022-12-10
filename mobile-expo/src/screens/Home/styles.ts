@@ -2,8 +2,6 @@ import styled, { css } from "styled-components/native";
 import { RFValue, RFPercentage } from "react-native-responsive-fontsize";
 import MapView from "react-native-maps";
 import { Platform } from "react-native";
-import { RectButton } from "react-native-gesture-handler";
-
 
 export const Container = styled.View`
   flex: 1;
@@ -78,8 +76,8 @@ export const LocationText = styled.Text`
   color: ${({ theme }) => theme.colors.text_dark};
 `;
 
-export const Back = styled(RectButton)`
-position: absolute;
+export const Back = styled.TouchableOpacity`
+  position: absolute;
   top: ${Platform.select({ ios: 40, android: 40})};
   left: 20px;
 `;

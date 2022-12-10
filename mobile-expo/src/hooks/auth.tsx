@@ -22,6 +22,7 @@ interface User{
 interface IAuthContextData{
     user: User;
     signInWithGoogle(): Promise<void>;
+    signOut(): Promise<void>;
 }
 
 interface AuthorizationResponse {
@@ -50,12 +51,10 @@ function AuthProvider({ children }: AuthProviderProps){
             if(type === 'success'){
                 const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`);
                 const userInfo = await response.json();
-                
-                console.log(userInfo);
 
                 const userLogged = {
                     id: String(userInfo.id),
-                    name: userInfo.given_name!,
+                    name: userInfo.name!,
                     email: userInfo.email!,
                     photo: userInfo.picture!
                 };
@@ -67,10 +66,15 @@ function AuthProvider({ children }: AuthProviderProps){
         }
     }
 
+    async function signOut(){
+        setUser({} as User);
+    }   
+
     return(
         <AuthContext.Provider value={{ 
             user,
-            signInWithGoogle
+            signInWithGoogle,
+            signOut
         }}>
             { children }
         </AuthContext.Provider>

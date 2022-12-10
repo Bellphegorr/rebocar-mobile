@@ -3,8 +3,10 @@ import { Platform } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons, Foundation, Ionicons } from '@expo/vector-icons'
 import { useTheme } from 'styled-components';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-const { Navigator, Screen } = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 import { Home } from '../screens/Home';
 import { Account } from "../screens/Account";
@@ -14,7 +16,7 @@ export function AppRoutes(){
     const theme = useTheme();
 
     return(
-        <Navigator
+        <Tab.Navigator
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: '#d3d3d3',
@@ -28,8 +30,8 @@ export function AppRoutes(){
                 }
             }}
         >
-            <Screen
-                name="Home"
+            <Tab.Screen
+                name="Início"
                 component={Home}
                 options={{
                     tabBarIcon: (({ size, color}) => 
@@ -42,7 +44,7 @@ export function AppRoutes(){
                 }}
             />
 
-            <Screen
+            <Tab.Screen
                 name="Atividades"
                 component={Activities}
                 options={{
@@ -56,7 +58,7 @@ export function AppRoutes(){
                 }}
             />
 
-            <Screen
+            <Tab.Screen
                 name="Perfil"
                 component={Account}
                 options={{
@@ -69,6 +71,7 @@ export function AppRoutes(){
                     )
                 }}
             />
-        </Navigator>
+
+        </Tab.Navigator>
     )
 }

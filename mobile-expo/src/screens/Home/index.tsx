@@ -4,6 +4,9 @@ import { useTheme } from "styled-components";
 import { Marker } from "react-native-maps";
 import Geocoder from "react-native-geocoding";
 
+import { ModalRoutes } from "../../routes/modal.routes";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import {
   Container,
   Map,
@@ -23,6 +26,7 @@ import MapViewDirections from "react-native-maps-directions";
 import { RequestButton } from "../../components/RequestButton";
 import { SearchDestination } from "../SearchDestination";
 import { Details } from "../../components/Details";
+import { AnimationRequest } from "../../components/AnimationRequest";
 import { io } from "socket.io-client";
 
 interface Origin {
@@ -33,11 +37,12 @@ interface Origin {
   longitudeDelta: number;
 }
 
+
 const { API_KEY } = process.env;
 
 Geocoder.init(API_KEY!);
 
-export function Home() {
+export function Home({ navigation }) {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [origin, setOrigin] = useState<Origin>({} as Origin);
@@ -46,6 +51,7 @@ export function Home() {
   const [distance, setDistance] = useState(0);
   const theme = useTheme();
   const socket = io("http://192.168.0.33:3000");
+  const [isRequest, setIsRequest] = useState(false);
 
   function handleOpenSearchDestination() {
     setSearchModalOpen(true);
@@ -57,6 +63,7 @@ export function Home() {
 
   function handleBackRequisition() {
     setDestination(null);
+    console.log(destination);
   }
 
   async function loadUserPosition() {
@@ -82,6 +89,7 @@ export function Home() {
   }
 
   function requestRide() {
+    setIsRequest(true);
     // socket.emit("join-costumer", "123");
     // socket.on("Hello from server after join user", () => {
     //   console.log("eita");
@@ -92,6 +100,10 @@ export function Home() {
       from: [origin.latitude, origin.longitude],
       to: [destination.latitude, destination.longitude],
     });
+  }
+
+  function cancelRequest() {
+    setIsRequest(false);
   }
 
   useEffect(() => {
@@ -152,14 +164,23 @@ export function Home() {
               </Fragment>
             )}
           </Map>
+          
           {destination ? (
             <>
-              <Back>
-                <TouchableOpacity onPress={handleBackRequisition}>
+              <Back
+                onPress={handleBackRequisition}
+              >
+                {/* <TouchableOpacity onPress={handleBackRequisition}> */}
                   <BackImage source={require("../../../assets/back.png")} />
-                </TouchableOpacity>
+                {/* </TouchableOpacity> */}
               </Back>
-              <Details onPress={requestRide} />
+              
+              {isRequest ? (
+                <AnimationRequest onPress={cancelRequest} />
+              ) : (
+                <Details onPress={requestRide} />
+              )}
+
             </>
           ) : (
             <Footer>
