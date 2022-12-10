@@ -37,7 +37,6 @@ interface Origin {
   longitudeDelta: number;
 }
 
-
 const { API_KEY } = process.env;
 
 Geocoder.init(API_KEY!);
@@ -90,16 +89,6 @@ export function Home({ navigation }) {
 
   function requestRide() {
     setIsRequest(true);
-    // socket.emit("join-costumer", "123");
-    // socket.on("Hello from server after join user", () => {
-    //   console.log("eita");
-    // });
-    // console.log("request ride");
-    socket.emit("request-race", {
-      userId: "123",
-      from: [origin.latitude, origin.longitude],
-      to: [destination.latitude, destination.longitude],
-    });
   }
 
   function cancelRequest() {
@@ -164,23 +153,20 @@ export function Home({ navigation }) {
               </Fragment>
             )}
           </Map>
-          
+
           {destination ? (
             <>
-              <Back
-                onPress={handleBackRequisition}
-              >
+              <Back onPress={handleBackRequisition}>
                 {/* <TouchableOpacity onPress={handleBackRequisition}> */}
-                  <BackImage source={require("../../../assets/back.png")} />
+                <BackImage source={require("../../../assets/back.png")} />
                 {/* </TouchableOpacity> */}
               </Back>
-              
+
               {isRequest ? (
                 <AnimationRequest onPress={cancelRequest} />
               ) : (
                 <Details onPress={requestRide} />
               )}
-
             </>
           ) : (
             <Footer>
