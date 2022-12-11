@@ -9,7 +9,6 @@ import { Broker } from "@/infrastructure/broker";
 import { JoinUser } from "@/application/join-user";
 import { RaceRepository } from "@/infrastructure/race-repository";
 import { AcceptRace } from "./application/accept-race";
-import { FindUserLocation } from "./application/find-driver-location";
 
 const app = express();
 const httpServer = createServer(app);
@@ -28,8 +27,11 @@ function create(socket: Socket) {
   const joinUser = new JoinUser(broker);
   const requestRace = new RequestRace(userRepository, broker, raceRepository);
   const acceptRace = new AcceptRace(broker, raceRepository);
-  const findUserLocation = new FindUserLocation(broker);
-  return { requestRace, joinUser, acceptRace, findUserLocation };
+  return {
+    requestRace,
+    joinUser,
+    acceptRace,
+  };
 }
 
 io.on("connection", (socket) => {
@@ -63,6 +65,20 @@ io.on("connection", (socket) => {
   socket.on("accept-race", (request: { raceId: string; driverId: string }) => {
     useCases.acceptRace.execute(request.raceId, request.driverId);
   });
+
+  socket.on("get-location", (request: { userId: string; userIdToFind }) => {
+    socket.to(request.userIdToFind).emit("get-location", request.userId);
+  });
+
+  socket.on(
+    "send-location",
+    (request: { userId: string; latitude: number; longitude: number }) => {
+      socket.to(request.userId).emit("receive-location", {
+        latitude: request.latitude,
+        longitude: request.longitude,
+      });
+    }
+  );
 });
 
 httpServer.listen(3000);

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { Modal, ActivityIndicator } from "react-native";
-import { Modal, ActivityIndicator } from "react-native";
 import { useTheme } from "styled-components";
 import { Marker } from "react-native-maps";
 import Geocoder from "react-native-geocoding";
@@ -36,7 +35,7 @@ interface Origin {
 const { API_KEY } = process.env;
 Geocoder.init(API_KEY!);
 
-export function Home() {
+export function Home({ navigation }) {
   const { socket } = useSocket();
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -46,7 +45,12 @@ export function Home() {
   const [distance, setDistance] = useState(0);
   const theme = useTheme();
   const [isRequest, setIsRequest] = useState(false);
-  //const [driverLocation, setDriverLocation] = useState(null);
+  const driverLocation = {
+    latitude: -15.885358,
+    longitude: -47.820909,
+    latitudeDelta: 0.00922,
+    longitudeDelta: 0.00421,
+  };
 
   function handleOpenSearchDestination() {
     setSearchModalOpen(true);
@@ -90,25 +94,16 @@ export function Home() {
       from: [origin.latitude, origin.longitude],
       to: [destination.latitude, destination.longitude],
     });
-
-    const driverLocation = {
-      latitude: -15.885358,
-      longitude: -47.820909,
-      latitudeDelta: 0.00922,
-      longitudeDelta: 0.00421,
-    };
-
-    // EVENTO DE ACEITAR A CORRIDA
-    setTimeout(() => {
+    socket.on("request-accepted", (data) => {
       setIsRequest(false);
       setDestination(null);
-
       navigation.navigate("Driver", {
         origin: origin,
-        driverLocation: driverLocation,
         destination: destination,
+        driverLocation: driverLocation,
+        race: data,
       });
-    }, 10000);
+    });
   }
 
   function cancelRequest() {
@@ -116,18 +111,10 @@ export function Home() {
   }
 
   useEffect(() => {
-    socket.emit("join-costumer", "123");
-  }, []);
-
-  useEffect(() => {
-    socket.on("request-accepted", (data: any) => {
-      console.log(JSON.stringify(data));
-    });
-  }, []);
-
-  useEffect(() => {
     loadUserPosition();
   }, []);
+
+  socket.emit("join-costumer", "123");
 
   return (
     <Container>
