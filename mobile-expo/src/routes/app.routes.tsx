@@ -11,8 +11,11 @@ const Stack = createNativeStackNavigator();
 import { Home } from '../screens/Home';
 import { Account } from "../screens/Account";
 import { Activities } from "../screens/Activities";
+import { Driver } from "../screens/Driver";
+import { Travel } from "../screens/Travel";
 
 export function AppRoutes(){
+// function TabMenu(){
     const theme = useTheme();
 
     return(
@@ -32,7 +35,7 @@ export function AppRoutes(){
         >
             <Tab.Screen
                 name="Início"
-                component={Home}
+                component={HomeScreens}
                 options={{
                     tabBarIcon: (({ size, color}) => 
                         <Foundation
@@ -74,4 +77,26 @@ export function AppRoutes(){
 
         </Tab.Navigator>
     )
+}
+
+function HomeScreens(){
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name="Home"
+                component={Home}
+                options={{ headerShown: false}}
+            />
+            <Stack.Screen
+                name="Driver"
+                component={Driver}
+                options={{ headerShown: false}}
+            />
+            <Stack.Screen
+                name="Travel"
+                component={Travel}
+                options={{ headerShown: false}}
+            />
+        </Stack.Navigator>
+    );
 }

@@ -18,7 +18,7 @@ export const Distance = styled.View`
 
   ${Platform.select({
     ios: css`
-      margin-top: 15px;
+      margin-left: 15px;
     `,
     android: css`
       margin-top: 10px;
@@ -28,9 +28,9 @@ export const Distance = styled.View`
 `;
 
 export const TextDistance = styled.Text`
-    font-family: ${({ theme }) => theme.fonts.bold}; 
+  font-family: ${({ theme }) => theme.fonts.bold}; 
 
-    color: ${({ theme }) => theme.colors.text_dark};
+  color: ${({ theme }) => theme.colors.text_dark};
 `;
 
 
@@ -49,7 +49,7 @@ export const LoadMap = styled.View`
 `;
 
 
-export const LocationBox = styled.View`
+export const LocationBoxDestination = styled.View`
   background: ${({ theme }) => theme.colors.shape};
   shadow-color: #000;
   shadow-offset: 0 0;
@@ -62,6 +62,27 @@ export const LocationBox = styled.View`
   ${Platform.select({
     ios: css`
       margin-top: 10px;
+    `,
+    android: css`
+      margin-top: 5px;
+      margin-left: 5px;
+    `
+  })}
+`;
+
+export const LocationBoxOrigin = styled.View`
+  background: ${({ theme }) => theme.colors.shape};
+  shadow-color: #000;
+  shadow-offset: 0 0;
+  shadow-opacity: 0.1;
+  elevation: 1;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  flex-direction: row;
+  
+  ${Platform.select({
+    ios: css`
+      margin-top: 55px;
     `,
     android: css`
       margin-top: 5px;

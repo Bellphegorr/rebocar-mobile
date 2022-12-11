@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
-import { Modal, ActivityIndicator, TouchableOpacity } from "react-native";
+import { Modal, ActivityIndicator } from "react-native";
 import { useTheme } from "styled-components";
 import { Marker } from "react-native-maps";
 import Geocoder from "react-native-geocoding";
-
-import { ModalRoutes } from "../../routes/modal.routes";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
   Container,
@@ -14,7 +11,8 @@ import {
   LoadMap,
   Distance,
   TextDistance,
-  LocationBox,
+  LocationBoxDestination,
+  LocationBoxOrigin,
   LocationText,
   Back,
   BackImage,
@@ -37,7 +35,6 @@ interface Origin {
   longitudeDelta: number;
 }
 
-
 const { API_KEY } = process.env;
 
 Geocoder.init(API_KEY!);
@@ -52,6 +49,7 @@ export function Home({ navigation }) {
   const theme = useTheme();
   const socket = io("http://192.168.0.33:3000");
   const [isRequest, setIsRequest] = useState(false);
+  //const [driverLocation, setDriverLocation] = useState(null);
 
   function handleOpenSearchDestination() {
     setSearchModalOpen(true);
@@ -63,7 +61,7 @@ export function Home({ navigation }) {
 
   function handleBackRequisition() {
     setDestination(null);
-    console.log(destination);
+    setIsRequest(false);
   }
 
   async function loadUserPosition() {
@@ -100,6 +98,25 @@ export function Home({ navigation }) {
       from: [origin.latitude, origin.longitude],
       to: [destination.latitude, destination.longitude],
     });
+
+    const driverLocation = {
+      latitude: -15.885358,
+      longitude: -47.820909,
+      latitudeDelta: 0.00922,
+      longitudeDelta: 0.00421,
+    }
+
+    // EVENTO DE ACEITAR A CORRIDA
+    setTimeout(() => {
+      setIsRequest(false);
+      setDestination(null);
+
+      navigation.navigate("Driver", {
+        origin: origin,
+        driverLocation: driverLocation,
+        destination: destination
+      })
+    }, 10000);
   }
 
   function cancelRequest() {
@@ -152,14 +169,17 @@ export function Home({ navigation }) {
                   <Distance>
                     {destination && <TextDistance>{distance}m</TextDistance>}
                   </Distance>
-                  <LocationBox>
+                  <LocationBoxDestination>
                     <LocationText>{destination.description}</LocationText>
-                  </LocationBox>
+                  </LocationBoxDestination>
                 </Marker>
-                <Marker coordinate={origin} anchor={{ x: 0, y: 0 }}>
-                  <LocationBox>
+                <Marker 
+                  coordinate={origin} 
+                  anchor={{ x: 0, y: 0 }}
+                >
+                  <LocationBoxOrigin>
                     <LocationText>{origin.description}</LocationText>
-                  </LocationBox>
+                  </LocationBoxOrigin>
                 </Marker>
               </Fragment>
             )}
@@ -167,12 +187,8 @@ export function Home({ navigation }) {
           
           {destination ? (
             <>
-              <Back
-                onPress={handleBackRequisition}
-              >
-                {/* <TouchableOpacity onPress={handleBackRequisition}> */}
+              <Back onPress={handleBackRequisition}>
                   <BackImage source={require("../../../assets/back.png")} />
-                {/* </TouchableOpacity> */}
               </Back>
               
               {isRequest ? (
