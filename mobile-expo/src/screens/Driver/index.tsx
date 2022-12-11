@@ -1,4 +1,4 @@
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Container, Map } from "./styles";
 import MapViewDirections from "react-native-maps-directions";
 import { Marker } from "react-native-maps";
@@ -10,6 +10,9 @@ const { API_KEY } = process.env;
 export function Driver({ route, navigation }) {
   const { origin, driverLocation, destination, race } = route.params;
   const mapEl = useRef(null);
+  const [driverRealTimeLocation, setDriverRealTimeLocation] =
+    useState(driverLocation);
+  const interval = useRef<any>(null);
   const { socket } = useSocket();
   const driver = {
     id: "1",
@@ -22,19 +25,29 @@ export function Driver({ route, navigation }) {
   };
 
   function cancelRequest() {
+    clearInterval(interval.current);
     navigation.goBack();
   }
 
-  console.log(JSON.stringify(race));
+  useEffect(() => {
+    interval.current = setInterval(() => {
+      socket.emit("get-location", {
+        userIdToFind: race.driver.id,
+        userId: race.costumer.id,
+      });
+    }, 5000);
 
-  // // EVENTO DE INICIAR CORRIDA
-  // setTimeout(() => {
-  //   navigation.navigate("Travel", {
-  //     origin: origin,
-  //     destination: destination,
-  //     driver: driver,
-  //   });
-  // }, 10000);
+    socket.on("receive-location", (data: any) => {
+      console.log(JSON.stringify(data));
+      setDriverRealTimeLocation({
+        description: "",
+        latitude: data.latitude,
+        longitude: data.longitude,
+        latitudeDelta: 0.00922,
+        longitudeDelta: 0.00421,
+      });
+    });
+  }, []);
 
   return (
     <Container>
@@ -48,7 +61,7 @@ export function Driver({ route, navigation }) {
         <Fragment>
           <MapViewDirections
             origin={origin}
-            destination={driverLocation}
+            destination={driverRealTimeLocation}
             apikey={API_KEY}
             strokeWidth={3}
             onReady={(result) => {
@@ -63,7 +76,7 @@ export function Driver({ route, navigation }) {
             }}
           />
           <Marker
-            coordinate={driverLocation}
+            coordinate={driverRealTimeLocation}
             anchor={{ x: 0, y: 0 }}
             image={require("../../../assets/marker.png")}
           ></Marker>

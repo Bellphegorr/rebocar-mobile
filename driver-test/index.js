@@ -13,7 +13,7 @@ socket.on("get-location", ({ userId }) => {
   console.log("get-location", userId);
   socket.emit("send-location", {
     userId,
-    latitude: -15.885358,
+    latitude: -15.805358,
     longitude: -47.820909,
   });
 });

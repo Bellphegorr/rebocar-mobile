@@ -66,13 +66,20 @@ io.on("connection", (socket) => {
     useCases.acceptRace.execute(request.raceId, request.driverId);
   });
 
-  socket.on("get-location", (request: { userId: string; userIdToFind }) => {
-    socket.to(request.userIdToFind).emit("get-location", request.userId);
-  });
+  socket.on(
+    "get-location",
+    (request: { userId: string; userIdToFind: string }) => {
+      console.log("get-location", request);
+      socket
+        .to(request.userIdToFind)
+        .emit("get-location", { userId: request.userId });
+    }
+  );
 
   socket.on(
     "send-location",
     (request: { userId: string; latitude: number; longitude: number }) => {
+      console.log("send-location", request);
       socket.to(request.userId).emit("receive-location", {
         latitude: request.latitude,
         longitude: request.longitude,
