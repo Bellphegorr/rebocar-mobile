@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { Modal, ActivityIndicator } from "react-native";
+import { Modal, ActivityIndicator } from "react-native";
 import { useTheme } from "styled-components";
 import { Marker } from "react-native-maps";
 import Geocoder from "react-native-geocoding";
@@ -10,7 +11,8 @@ import {
   LoadMap,
   Distance,
   TextDistance,
-  LocationBox,
+  LocationBoxDestination,
+  LocationBoxOrigin,
   LocationText,
   Back,
   BackImage,
@@ -44,6 +46,7 @@ export function Home() {
   const [distance, setDistance] = useState(0);
   const theme = useTheme();
   const [isRequest, setIsRequest] = useState(false);
+  //const [driverLocation, setDriverLocation] = useState(null);
 
   function handleOpenSearchDestination() {
     setSearchModalOpen(true);
@@ -55,6 +58,7 @@ export function Home() {
 
   function handleBackRequisition() {
     setDestination(null);
+    setIsRequest(false);
   }
 
   async function loadUserPosition() {
@@ -86,6 +90,25 @@ export function Home() {
       from: [origin.latitude, origin.longitude],
       to: [destination.latitude, destination.longitude],
     });
+
+    const driverLocation = {
+      latitude: -15.885358,
+      longitude: -47.820909,
+      latitudeDelta: 0.00922,
+      longitudeDelta: 0.00421,
+    };
+
+    // EVENTO DE ACEITAR A CORRIDA
+    setTimeout(() => {
+      setIsRequest(false);
+      setDestination(null);
+
+      navigation.navigate("Driver", {
+        origin: origin,
+        driverLocation: driverLocation,
+        destination: destination,
+      });
+    }, 10000);
   }
 
   function cancelRequest() {
@@ -148,14 +171,14 @@ export function Home() {
                   <Distance>
                     {destination && <TextDistance>{distance}m</TextDistance>}
                   </Distance>
-                  <LocationBox>
+                  <LocationBoxDestination>
                     <LocationText>{destination.description}</LocationText>
-                  </LocationBox>
+                  </LocationBoxDestination>
                 </Marker>
                 <Marker coordinate={origin} anchor={{ x: 0, y: 0 }}>
-                  <LocationBox>
+                  <LocationBoxOrigin>
                     <LocationText>{origin.description}</LocationText>
-                  </LocationBox>
+                  </LocationBoxOrigin>
                 </Marker>
               </Fragment>
             )}

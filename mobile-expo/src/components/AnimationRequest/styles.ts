@@ -30,7 +30,6 @@ export const Description = styled.Text`
 
 export const CancelRequest = styled.TouchableOpacity`
   align-items: center;
-  border-color: red;
 `;
 
 export const TitleCancelButton = styled.Text`
