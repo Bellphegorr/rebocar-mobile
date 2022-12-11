@@ -9,10 +9,13 @@ import { Broker } from "@/infrastructure/broker";
 import { JoinUser } from "@/application/join-user";
 import { RaceRepository } from "@/infrastructure/race-repository";
 import { AcceptRace } from "./application/accept-race";
+import { FindUserLocation } from "./application/find-driver-location";
 
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
+  transports: ["websocket", "polling"],
+
   cors: {
     origin: "*",
   },
@@ -25,7 +28,8 @@ function create(socket: Socket) {
   const joinUser = new JoinUser(broker);
   const requestRace = new RequestRace(userRepository, broker, raceRepository);
   const acceptRace = new AcceptRace(broker, raceRepository);
-  return { requestRace, joinUser, acceptRace };
+  const findUserLocation = new FindUserLocation(broker);
+  return { requestRace, joinUser, acceptRace, findUserLocation };
 }
 
 io.on("connection", (socket) => {
@@ -33,15 +37,12 @@ io.on("connection", (socket) => {
 
   socket.on("join-costumer", (userId: string) => {
     useCases.joinUser.execute(userId);
-    //TODO: just a test to know if the user is connected
-    io.to(userId).emit("Hello from server after join user");
   });
 
   socket.on("join-driver", (userId: string) => {
     //TODO: implement in the future
     socket.join("drivers");
     useCases.joinUser.execute(userId);
-    io.to(userId).emit("Hello from server after join driver");
   });
 
   socket.on(
@@ -53,6 +54,7 @@ io.on("connection", (socket) => {
         const to = new CustomLocation(request.to[0], request.to[1]);
         await useCases.requestRace.execute(request.userId, from, to);
       } catch (error) {
+        //TODO: when not found a driver, send a message to the client
         console.log("erro aqui: ", error);
       }
     }

@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "core",
-    "mobile-expo"
+    "mobile-expo",
+    "driver-test"
   ],
   "_moduleAliases": {
     "@": "core/dist/src"
