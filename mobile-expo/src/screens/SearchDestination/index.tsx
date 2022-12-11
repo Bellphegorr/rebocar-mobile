@@ -37,8 +37,6 @@ export function SearchDestination({
         <GooglePlacesAutocomplete
           placeholder="Para onde?"
           onPress={(data, details = null) => {
-            //console.log(data, details);
-
             setDestination({
               description: data.description,
               latitude: details.geometry.location.lat,
@@ -46,7 +44,6 @@ export function SearchDestination({
               latitudeDelta: 0.00922,
               longitudeDelta: 0.00421,
             });
-
             closeSearchModal();
           }}
           query={{
@@ -75,7 +72,6 @@ export function SearchDestination({
           }}
         />
       </Field>
-
       <Footer>
         <TouchableOpacity onPress={closeSearchModal}>
           <Button title="Voltar" onPress={closeSearchModal} />

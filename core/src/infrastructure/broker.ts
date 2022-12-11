@@ -8,8 +8,8 @@ export class Broker implements IBroker {
   confirmRequestAccepted(race: Race): void {
     this.socket.broadcast
       .to("drivers")
-      .emit("request accepted", "request already accepted");
-    this.socket.to(race.getCostumer().getId()).emit("request accepted", race);
+      .emit("request-accepted", "request already accepted");
+    this.socket.to(race.getCostumer().getId()).emit("request-accepted", race);
   }
 
   joinUser(userId: string): void {

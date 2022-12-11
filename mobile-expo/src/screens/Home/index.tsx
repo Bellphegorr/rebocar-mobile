@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
-import { Modal, ActivityIndicator, TouchableOpacity } from "react-native";
+import { Modal, ActivityIndicator } from "react-native";
 import { useTheme } from "styled-components";
 import { Marker } from "react-native-maps";
 import Geocoder from "react-native-geocoding";
-
-import { ModalRoutes } from "../../routes/modal.routes";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import {
   Container,
   Map,
@@ -19,15 +15,13 @@ import {
   Back,
   BackImage,
 } from "./styles";
-
 import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
-
 import { RequestButton } from "../../components/RequestButton";
 import { SearchDestination } from "../SearchDestination";
 import { Details } from "../../components/Details";
 import { AnimationRequest } from "../../components/AnimationRequest";
-import { io } from "socket.io-client";
+import { useSocket } from "../../hooks/socket";
 
 interface Origin {
   description: string;
@@ -38,10 +32,10 @@ interface Origin {
 }
 
 const { API_KEY } = process.env;
-
 Geocoder.init(API_KEY!);
 
-export function Home({ navigation }) {
+export function Home() {
+  const { socket } = useSocket();
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [origin, setOrigin] = useState<Origin>({} as Origin);
@@ -49,7 +43,6 @@ export function Home({ navigation }) {
   const mapEl = useRef(null);
   const [distance, setDistance] = useState(0);
   const theme = useTheme();
-  const socket = io("http://192.168.0.33:3000");
   const [isRequest, setIsRequest] = useState(false);
 
   function handleOpenSearchDestination() {
@@ -62,7 +55,6 @@ export function Home({ navigation }) {
 
   function handleBackRequisition() {
     setDestination(null);
-    console.log(destination);
   }
 
   async function loadUserPosition() {
@@ -89,11 +81,26 @@ export function Home({ navigation }) {
 
   function requestRide() {
     setIsRequest(true);
+    socket.emit("request-race", {
+      userId: "123",
+      from: [origin.latitude, origin.longitude],
+      to: [destination.latitude, destination.longitude],
+    });
   }
 
   function cancelRequest() {
     setIsRequest(false);
   }
+
+  useEffect(() => {
+    socket.emit("join-costumer", "123");
+  }, []);
+
+  useEffect(() => {
+    socket.on("request-accepted", (data: any) => {
+      console.log(JSON.stringify(data));
+    });
+  }, []);
 
   useEffect(() => {
     loadUserPosition();
@@ -153,13 +160,10 @@ export function Home({ navigation }) {
               </Fragment>
             )}
           </Map>
-
           {destination ? (
             <>
               <Back onPress={handleBackRequisition}>
-                {/* <TouchableOpacity onPress={handleBackRequisition}> */}
                 <BackImage source={require("../../../assets/back.png")} />
-                {/* </TouchableOpacity> */}
               </Back>
 
               {isRequest ? (

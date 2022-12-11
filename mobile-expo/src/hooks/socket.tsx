@@ -1,25 +1,38 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
-import { io } from "socket.io-client";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { io, Socket } from "socket.io-client";
 
-const SocketContext = createContext({} as any);
+interface SocketProviderProps {
+  children: ReactNode;
+}
 
-function SocketProvider({ children }: any) {
+interface SocketContextData {
+  socket: Socket<any, any>;
+}
+
+const SocketContext = createContext({} as SocketContextData);
+
+function SocketProvider({ children }: SocketProviderProps) {
   const [socket, setSocket] = useState<any>({} as any);
 
-  async function connectSocket() {
-    try {
-      const socket = io("http://localhost:3000");
+  useEffect(() => {
+    if (!socket.connected) {
+      const socket = io("http://192.168.0.33:3000", {
+        transports: ["websocket"],
+      });
       setSocket(socket);
-    } catch (error) {
-      throw new Error(error);
     }
-  }
+  }, []);
 
   return (
     <SocketContext.Provider
       value={{
         socket,
-        connectSocket,
       }}
     >
       {children}
