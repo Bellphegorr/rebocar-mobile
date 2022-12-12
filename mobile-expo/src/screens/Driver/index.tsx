@@ -38,13 +38,21 @@ export function Driver({ route, navigation }) {
     }, 5000);
 
     socket.on("receive-location", (data: any) => {
-      console.log(JSON.stringify(data));
       setDriverRealTimeLocation({
         description: "",
         latitude: data.latitude,
         longitude: data.longitude,
         latitudeDelta: 0.00922,
         longitudeDelta: 0.00421,
+      });
+    });
+
+    socket.on("start-race", (data: any) => {
+      clearInterval(interval.current);
+      navigation.navigate("Travel", {
+        origin: origin,
+        destination: destination,
+        driver: driver,
       });
     });
   }, []);

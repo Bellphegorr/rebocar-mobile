@@ -4,9 +4,108 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
     <title>Document</title>
   </head>
   <body>
-    <script type="module" src="./index.js" crossorigin="anonymous"></script>
+    <div class="container mt-2">
+      <div class="row justify-content-center">
+        <div id="race" class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Corridas</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Lista de corritas</h6>
+              <p class="card-text"></p>
+            </div>
+          </div>
+          <ul class="list-group mt-2"></ul>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.socket.io/4.5.4/socket.io.min.js"
+      integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI"
+      crossorigin="anonymous"
+    ></script>
+
+    <script type="module" crossorigin="anonymous">
+      const socket = io("http://localhost:3000");
+      const driverId = "driver1";
+      let race = null;
+
+      socket.on("connect", () => {
+        socket.emit("join-driver", driverId);
+        socket.on("requested-race", (data) => {
+          const raceItem = createRaceItem(data);
+          document.querySelector(".list-group").innerHTML += raceItem;
+          document
+            .querySelector("[data-race]")
+            .addEventListener("click", acceptRace);
+          document
+            .querySelector("[data-start-race]")
+            .addEventListener("click", startRace);
+        });
+        socket.on("get-location", ({ userId }) => {
+          navigator.geolocation.getCurrentPosition((position) => {
+            socket.emit("send-location", {
+              userId,
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          });
+        });
+      });
+
+      function createRaceItem(race) {
+        return `
+          <li class="list-group-item border-0">
+            <div class="card text-center bg-light">
+              <div class="card-body">
+                <h5 class="card-title">Corrida</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Usuário: ${
+                  race.costumer.id
+                }</h6>
+                <p class="card-text">
+                  <p class="text-center fw-bold">Origem: ${
+                    race.origin.latitude
+                  }, ${race.origin.longitude}</p>
+                  <p class="text-center fw-bold"> Destino: ${
+                    race.destination.latitude
+                  }, ${race.destination.longitude}</p>
+                </p>
+                <button type="button" class="btn btn-dark" data-race="${encodeURIComponent(
+                  JSON.stringify(race)
+                )}">Confirmar</button>
+                <button type="button" class="btn btn-dark d-none" data-start-race="${encodeURIComponent(
+                  JSON.stringify(race)
+                )}">Confirmar</button>
+              </div>
+            </div>
+          </li>
+        `;
+      }
+
+      function acceptRace() {
+        race = JSON.parse(decodeURIComponent(this.dataset.race));
+        socket.emit("accept-race", { driverId, raceId: race.id });
+        this.remove();
+        document.querySelector("[data-start-race]").classList.remove("d-none");
+      }
+
+      function startRace() {
+        race = JSON.parse(decodeURIComponent(this.dataset.startRace));
+        socket.emit("start-race", {
+          userId: race.costumer.id,
+          raceId: race.id,
+        });
+        this.remove();
+      }
+    </script>
   </body>
 </html>

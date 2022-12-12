@@ -46,6 +46,7 @@ io.on("connection", (socket) => {
     //TODO: implement in the future
     socket.join("drivers");
     useCases.joinUser.execute(userId);
+    console.log("join-driver", userId);
   });
 
   socket.on(
@@ -87,6 +88,11 @@ io.on("connection", (socket) => {
       });
     }
   );
+
+  socket.on("start-race", (request: { userId: string; raceId: string }) => {
+    socket.to(request.userId).emit("start-race", { raceId: request.raceId });
+    console.log("start-race", request);
+  });
 });
 
 httpServer.listen(3000);
