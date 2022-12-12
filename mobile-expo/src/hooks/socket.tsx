@@ -22,7 +22,7 @@ function SocketProvider({ children }: SocketProviderProps) {
 
   useEffect(() => {
     if (!socket.connected) {
-      const socket = io("http://192.168.0.33:3000", {
+      const socket = io("https://back-end-tcc.azurewebsites.net", {
         transports: ["websocket"],
       });
       setSocket(socket);

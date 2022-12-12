@@ -35,7 +35,9 @@
     ></script>
 
     <script type="module" crossorigin="anonymous">
-      const socket = io("http://localhost:3000");
+      const socket = io("https://back-end-tcc.azurewebsites.net/", {
+        crossOriginIsolated: true,
+      });
       const driverId = "driver1";
       let race = null;
 
