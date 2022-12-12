@@ -1,13 +1,15 @@
 const express = require("express");
+const dotenv = require("dotenv");
 const app = express();
 const cors = require("cors");
-
+dotenv.config();
+const port = process.env.PORT || 5000;
 app.use(cors());
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-const server = app.listen(5000, () => {
-  console.log("server started on port 3000");
+app.listen(port, () => {
+  console.log("server started on port 5000");
 });

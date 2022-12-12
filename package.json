@@ -2,8 +2,7 @@
   "name": "rebocar-mobile",
   "private": true,
   "scripts": {
-    "build": "yarn workspace core run build",
-    "start": "yarn workspace core run start"
+    "start": "yarn workspace driver-test run start"
   },
   "workspaces": [
     "core",
