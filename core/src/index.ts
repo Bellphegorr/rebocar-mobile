@@ -1,5 +1,7 @@
 import "module-alias/register";
 import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import { RequestRace } from "@/application/request-race";
@@ -10,7 +12,9 @@ import { JoinUser } from "@/application/join-user";
 import { RaceRepository } from "@/infrastructure/race-repository";
 import { AcceptRace } from "./application/accept-race";
 
+dotenv.config();
 const app = express();
+const port = process.env.PORT || 8080;
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
@@ -19,6 +23,7 @@ const io = new Server(httpServer, {
 });
 const userRepository = new UserRepository();
 const raceRepository = new RaceRepository();
+app.use(cors());
 
 function create(socket: Socket) {
   const broker = new Broker(socket);
@@ -93,7 +98,7 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(3000);
+httpServer.listen(port);
 //create a express app example
 
 // import express from "express";
