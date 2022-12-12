@@ -24,7 +24,12 @@
         "foregroundImage": "./assets/branding.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.bellphegorr.mobileexpo"
+      "package": "com.bellphegorr.mobileexpo",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAkL3mkoU6RI665f-nrjsEqrFTKyAJgZk8"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/branding.png"

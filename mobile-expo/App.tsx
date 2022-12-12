@@ -1,3 +1,4 @@
+import "expo-dev-client";
 import React from "react";
 import { ThemeProvider } from "styled-components";
 import theme from "./src/global/theme";

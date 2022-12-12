@@ -5,9 +5,12 @@
   "private": true,
   "scripts": {
     "start": "expo start",
+    "dev": "expo start --dev-client",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "build-dev": "eas build -p android --profile development",
+    "build-preview": "eas build -p android --profile preview"
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.2",

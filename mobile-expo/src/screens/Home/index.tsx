@@ -114,7 +114,10 @@ export function Home({ navigation }) {
     loadUserPosition();
   }, []);
 
-  socket.emit("join-costumer", "123");
+  useEffect(() => {
+    if (socket.emit === undefined) return;
+    socket.emit("join-costumer", "123");
+  }, [socket]);
 
   return (
     <Container>

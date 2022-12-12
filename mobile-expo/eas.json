@@ -7,21 +7,19 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_CLIENT_ID": "",
-        "CLIENT_SECRET": "",
-        "REDIRECT_URI": ""
+        "EXPO_CLIENT_ID": "519447374203-qgf9l5d3f0l4bq0dahd7mcofkkboi897.apps.googleusercontent.com",
+        "CLIENT_SECRET": "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",
+        "REDIRECT_URI": "https://auth.expo.io/@bellphegorr/mobile-expo",
+        "API_KEY": "AIzaSyB_N-WQeuFwMPN94tRynqINqRysxV5C8_0"
       }
     },
     "preview": {
-      "developmentClient": true,
+      "distribution": "internal",
       "env": {
-        "EXPO_CLIENT_ID": "",
-        "CLIENT_SECRET": "",
-        "REDIRECT_URI": ""
-      },
-      "android": {
-        "buildType": "apk",
-        "gradleCommand": "app:assembleRelease"
+        "EXPO_CLIENT_ID": "519447374203-qgf9l5d3f0l4bq0dahd7mcofkkboi897.apps.googleusercontent.com",
+        "CLIENT_SECRET": "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",
+        "REDIRECT_URI": "https://auth.expo.io/@bellphegorr/mobile-expo",
+        "API_KEY": "AIzaSyB_N-WQeuFwMPN94tRynqINqRysxV5C8_0"
       }
     },
     "production": {}

@@ -39,6 +39,7 @@ io.on("connection", (socket) => {
 
   socket.on("join-costumer", (userId: string) => {
     useCases.joinUser.execute(userId);
+    console.log("join-costumer", userId);
   });
 
   socket.on("join-driver", (userId: string) => {
