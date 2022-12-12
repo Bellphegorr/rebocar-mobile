@@ -1,10 +1,10 @@
 {
   "name": "core",
   "version": "1.0.0",
-  "main": "dist/src/main.js",
+  "main": "dist/src/index.js",
   "scripts": {
-    "start": "node dist/src/main.js",
-    "dev": "nodemon --watch src src/main.ts --exec \"tsc -p . && node dist/src/main.js\"",
+    "start": "node dist/src/index.js",
+    "dev": "nodemon --watch src src/index.ts --exec \"tsc -p . && node dist/src/index.js\"",
     "build": "tsc",
     "test": "jest --watchAll"
   },
