@@ -1,6 +1,10 @@
 {
   "name": "rebocar-mobile",
   "private": true,
+  "scripts": {
+    "build": "yarn workspace core run build",
+    "start": "yarn workspace core run start"
+  },
   "workspaces": [
     "core",
     "mobile-expo",
