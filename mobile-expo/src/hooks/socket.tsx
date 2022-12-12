@@ -22,7 +22,7 @@ function SocketProvider({ children }: SocketProviderProps) {
 
   useEffect(() => {
     if (!socket.connected) {
-      const socket = io("https://back-end-tcc.azurewebsites.net", {
+      const socket = io("https://rebocar-back-end.herokuapp.com/", {
         transports: ["websocket"],
       });
       setSocket(socket);
